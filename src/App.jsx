@@ -1,6 +1,7 @@
 
 import './App.css';
 import React, { Component } from "react";
+
 // import {Book} from "./Book";
 // import {Preloader} from './Preloader';
 
@@ -19,18 +20,63 @@ import React, { Component } from "react";
 
   class App extends Component {
     state ={
-      count: 0
+      count: 0,
+      isCounting: false
     };
 
-  
+    // Вытаскиваем значения сохранившего значения таймера из LocalStorage используем унарный плюс для превращения строки в число
+
+    componentDidMount () {
+      const userCount = localStorage.getItem('timer');
+      this.setState({count: +userCount});
+    }
+
+    // Отправка в LocalStorage данных о состоянии таймера пользователя 
+    componentDidUpdate () {
+      localStorage.setItem('timer', this.state.count)
+    }
+
+    // Если пользователь ушел с сайта и оставил выключенным таймер, нам нужно остановить команду SetInterval
+    componentWillUnmount () {
+      clearInterval(this.timerID);
+    }
+
+    // Функция для кнопки начала старта
+    
+    timerStart = ()=> {
+      this.setState ({isCounting: true})
+      this.timerID = setInterval ( ()=> {
+        this.setState({count: this.state.count +1})
+      }, 1000)
+    }
+
+    // Функция для кнопки остановки таймера
+
+    timerStop = ()=> {
+      this.setState ({isCounting:false});
+      clearInterval (this.timerID);
+    };
+
+    // Функция для кнопки сброса таймера
+
+    timerReset = ()=> {
+      this.setState ({isCounting : false, count: 0});
+      clearInterval(this.timerID)
+    };
+
   render() {
     return (
-      <div className='App'>
-        <h1>Мой кликер</h1> 
-        <button onClick = { ()=> this.setState({count: this.state.count -1})}>-</button>
-        <span>{this.state.count}</span>
-        <button onClick = { ()=> this.setState({count: this.state.count +1})}>+</button>
+      <div className='App' style={{ backgroundColor: "#FFFFCC"}}>
+         <h1>React Секундомер</h1>
+         <div> <h1>{this.state.count}</h1> </div>
 
+         {! this.state.isCounting ? (
+         <button onClick = { this.timerStart } style= {{margin: "10px"}}>Старт</button>
+         ) : (
+         <button onClick = { this.timerStop } style= {{margin: "10px"}}>Остановить</button>
+         )}
+         <button onClick={this.timerReset}>Сброс</button>
+        
       </div>
     )
   }
