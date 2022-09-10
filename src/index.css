@@ -29,3 +29,39 @@ nav {
   padding: 15px;
 }
 
+.search-btn {
+  position: absolute;
+  top: 0;
+  right: 0.5rem;
+}
+
+label:not(:last-child) {
+  margin-right: 1rem;
+}
+
+.input-field input[type=search]{
+font-size: 24px;
+color: white;
+}
+
+.input-field input[type=search]:focus:not(.browser-default){
+  background-color: #696969;
+  color: white;
+}
+
+.btn {
+  color: black;
+  background-color: #DCDCDC;
+}
+
+.with-gap{
+  color:white
+}
+
+.radiobtn{
+  color: white;
+}
+
+[type="radio"]:not(:checked)+span, [type="radio"]:checked+span{
+  font-size: 1.5rem;
+}
