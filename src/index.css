@@ -65,3 +65,7 @@ color: white;
 [type="radio"]:not(:checked)+span, [type="radio"]:checked+span{
   font-size: 1.5rem;
 }
+
+.TextnotFound {
+  color:white
+}
